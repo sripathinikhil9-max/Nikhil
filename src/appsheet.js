@@ -26,4 +26,16 @@ class AppSheet {
         return document.querySelector('[data-testid="button-select-button"]');
     }
 
+    static getRelatedRemarksSection() {
+    return document.querySelector('[data-testid="Related Offshore Remarks"]');
+    }
+
+    static getAddButton() {
+    return document.querySelector('[data-testid="Related Offshore Remarks"] span');
+    }
+
+    static getDeleteButton() {
+    return document.querySelector('#navbar-Offshore\\ Remarks-Delete');
+    }
+
 }
