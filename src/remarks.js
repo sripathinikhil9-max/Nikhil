@@ -1,29 +1,24 @@
-/**
- * Revenue Audit Bot
- * Remarks Engine
- */
+class RemarksEngine{
 
-class RemarksEngine {
+    constructor(logger){
 
-    constructor(logger) {
-        this.logger = logger;
+        this.logger=logger;
+
     }
 
-    async hasExistingRemarks() {
+    async process(){
 
-        const deleteButton = AppSheet.getDeleteButton();
+        if(AppSheet.hasExistingRemarks()){
 
-        if (deleteButton) {
+            this.logger.warning("Existing Remarks Detected");
 
-            this.logger.warning("Existing remarks found");
-
-            return true;
+            return "DELETE";
 
         }
 
-        this.logger.info("No existing remarks");
+        this.logger.success("No Existing Remarks");
 
-        return false;
+        return "ADD";
 
     }
 
