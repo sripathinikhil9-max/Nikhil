@@ -9,56 +9,32 @@ class ReportEngine {
         this.logger = logger;
     }
 
-    async openReport() {
+    async openReport(){
 
-        this.logger.info("Opening report...");
+    this.logger.info("Opening report...");
 
-        const report = AppSheet.getReportCard();
+    const clicked = await AppSheet.clickReport();
 
-        if (!report) {
+    if(!clicked){
 
-            this.logger.error("Report card not found");
-
-            return false;
-
-        }
-
-        await AppSheet.clickReport();
-
-        const loaded = await this.waitForReportPage();
-
-        if (loaded) {
-
-            this.logger.success("Report opened");
-
-            return true;
-
-        }
-
-        this.logger.error("Report failed to open");
+        this.logger.error("Report card not found");
 
         return false;
 
     }
 
-    async waitForReportPage(timeout = 10000) {
+    const loaded = await AppSheet.waitForReport();
 
-        const start = Date.now();
+    if(loaded){
 
-        while (Date.now() - start < timeout) {
+        this.logger.success("Report Loaded");
 
-            const remarksSection = document.querySelector('[data-testid="Related Offshore Remarks"]');
-
-            if (remarksSection) {
-                return true;
-            }
-
-            await Utils.sleep(200);
-
-        }
-
-        return false;
+        return true;
 
     }
+
+    this.logger.error("Report Load Timeout");
+
+    return false;
 
 }
