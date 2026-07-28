@@ -12,6 +12,7 @@ class RevenueAuditBot {
         this.report = null;
         this.remarks = null;
         this.workflow = null;
+        this.actions = null;
 
         this.running = false;
 
@@ -28,6 +29,8 @@ class RevenueAuditBot {
         this.remarks = new RemarksEngine(this.logger);
 
         this.workflow = new Workflow(this);
+
+        this.actions = new Actions(this.logger);
 
         this.logger.success("Revenue Audit Bot Initialized");
 
