@@ -23,7 +23,7 @@ class SearchEngine {
 
         }
 
-        Utils.type(searchBox, bl);
+        await AppSheet.searchBL(bl);
 
         await Utils.sleep(1000);
 
