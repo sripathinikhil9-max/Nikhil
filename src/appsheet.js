@@ -11,7 +11,7 @@ class AppSheet {
 
 static confirmationDialog() {
 
-    return document.querySelector('[role="dialog"]');
+    return Selectors.searchInput('[role="dialog"]');
 
 }
 
@@ -60,7 +60,7 @@ static async waitDialogClosed(timeout = 5000){
 // ----------------------------
 
 static deleteButton() {
-    return document.querySelector('#navbar-Offshore\\ Remarks-Delete');
+    return Selectors.searchInput('#navbar-Offshore\\ Remarks-Delete');
 }
 
 static addButton() {
