@@ -23,7 +23,7 @@ class ReportEngine {
 
         }
 
-        Utils.click(report);
+        await AppSheet.clickReport();
 
         const loaded = await this.waitForReportPage();
 
