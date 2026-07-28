@@ -26,7 +26,10 @@ class RevenueAuditBot {
 
         this.report = new ReportEngine(this.logger);
 
-        this.remarks = new RemarksEngine(this.logger);
+        this.remarks = new RemarksEngine(     
+            this.logger,     
+            this.actions 
+        );
 
         this.workflow = new Workflow(this);
 
