@@ -5,62 +5,40 @@
 
 class AppSheet {
 
-    // ----------------------------
-    // ELEMENTS
-    // ----------------------------
+    // ---------- WAIT HELPERS ----------
 
-    static searchBox() {
-        return document.querySelector('#ReactRoot input');
+static async waitForReport(timeout = 10000) {
+
+    const start = Date.now();
+
+    while (Date.now() - start < timeout) {
+
+        if (this.remarksSection()) {
+            return true;
+        }
+
+        await Utils.sleep(200);
     }
 
-    static reportCard() {
-        return document.querySelector('[data-testid="base-type-display"]');
+    return false;
+}
+
+static async waitForSearchResult(timeout = 8000) {
+
+    const start = Date.now();
+
+    while (Date.now() - start < timeout) {
+
+        if (this.emptyView()) {
+            return "NOT_FOUND";
+        }
+
+        if (this.reportCard()) {
+            return "FOUND";
+        }
+
+        await Utils.sleep(200);
     }
 
-    static emptyView() {
-        return document.querySelector('[data-testid="empty-view"]');
-    }
-
-    static remarksSection() {
-        return document.querySelector('[data-testid="Related Offshore Remarks"]');
-    }
-
-    // ----------------------------
-    // ACTIONS
-    // ----------------------------
-
-    static async searchBL(bl){
-
-        const box=this.searchBox();
-
-        if(!box) return false;
-
-        box.focus();
-
-        box.value="";
-
-        box.dispatchEvent(new Event("input",{bubbles:true}));
-
-        box.value=bl;
-
-        box.dispatchEvent(new Event("input",{bubbles:true}));
-
-        box.dispatchEvent(new Event("change",{bubbles:true}));
-
-        return true;
-
-    }
-
-    static async clickReport(){
-
-        const report=this.reportCard();
-
-        if(!report) return false;
-
-        report.click();
-
-        return true;
-
-    }
-
+    return "TIMEOUT";
 }
