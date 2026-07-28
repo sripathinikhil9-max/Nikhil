@@ -6,6 +6,56 @@
 class AppSheet {
 
     // ----------------------------
+// DELETE DIALOG
+// ----------------------------
+
+static confirmationDialog() {
+
+    return document.querySelector('[role="dialog"]');
+
+}
+
+static confirmDeleteButton() {
+
+    const buttons = [...document.querySelectorAll("button")];
+
+    return buttons.find(btn =>
+        btn.textContent.trim() === "Delete"
+    );
+
+}
+
+static cancelDeleteButton() {
+
+    const buttons = [...document.querySelectorAll("button")];
+
+    return buttons.find(btn =>
+        btn.textContent.trim() === "No"
+    );
+
+}
+
+static async waitDialogClosed(timeout = 5000){
+
+    const start = Date.now();
+
+    while(Date.now() - start < timeout){
+
+        if(!this.confirmationDialog()){
+
+            return true;
+
+        }
+
+        await Utils.sleep(100);
+
+    }
+
+    return false;
+
+}
+    
+    // ----------------------------
 // REMARKS
 // ----------------------------
 
