@@ -45,20 +45,14 @@ class Workflow {
         }
 
         // STEP 3
-        const existing = await this.bot.remarks.hasExistingRemarks();
+        const action = await this.bot.remarks.process();
 
-        if(existing){
+if(action==="DELETE"){
 
-            this.bot.logger.info("Delete workflow will execute.");
+    this.bot.logger.info("Delete Workflow");
 
-        }else{
+}else{
 
-            this.bot.logger.info("Add workflow will execute.");
-
-        }
-
-        return "READY";
-
-    }
+    this.bot.logger.info("Add Workflow");
 
 }
