@@ -9,58 +9,36 @@ class SearchEngine {
         this.logger = logger;
     }
 
-    async searchBL(bl) {
+    async searchBL(bl){
 
-        this.logger.info("Searching : " + bl);
+    this.logger.info("Searching : " + bl);
 
-        const searchBox = AppSheet.getSearchBox();
+    const ok = await AppSheet.searchBL(bl);
 
-        if (!searchBox) {
+    if(!ok){
 
-            this.logger.error("Search box not found");
+        this.logger.error("Search box not found");
 
-            return "ERROR";
-
-        }
-
-        await AppSheet.searchBL(bl);
-
-        await Utils.sleep(1000);
-
-        return await this.waitForResult();
+        return "ERROR";
 
     }
 
-    async waitForResult(timeout = 8000) {
+    const result = await AppSheet.waitForSearchResult();
 
-        const start = Date.now();
+    switch(result){
 
-        while (Date.now() - start < timeout) {
+        case "FOUND":
+            this.logger.success("BL Found");
+            break;
 
-            if (AppSheet.getEmptyView()) {
+        case "NOT_FOUND":
+            this.logger.warning("BL Not Found");
+            break;
 
-                this.logger.warning("BL Not Found");
-
-                return "NOT_FOUND";
-
-            }
-
-            if (AppSheet.getReportCard()) {
-
-                this.logger.success("BL Found");
-
-                return "FOUND";
-
-            }
-
-            await Utils.sleep(200);
-
-        }
-
-        this.logger.error("Search Timeout");
-
-        return "TIMEOUT";
-
+        case "TIMEOUT":
+            this.logger.error("Search Timeout");
+            break;
     }
 
+    return result;
 }
