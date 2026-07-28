@@ -1,20 +1,23 @@
-class RevenueAuditBot{
+/**
+ * Revenue Audit Bot
+ * Main Controller
+ */
 
-    constructor(){
+class RevenueAuditBot {
+
+    constructor() {
 
         this.logger = null;
-
         this.search = null;
-
         this.report = null;
-
         this.remarks = null;
-
         this.workflow = null;
+
+        this.running = false;
 
     }
 
-    initialize(logElement){
+    initialize(logElement) {
 
         this.logger = new Logger(logElement);
 
@@ -30,4 +33,20 @@ class RevenueAuditBot{
 
     }
 
+    async processSingleBL(bl){
+
+        if(!bl){
+
+            this.logger.warning("BL is empty");
+
+            return;
+
+        }
+
+        await this.workflow.processBL(bl);
+
+    }
+
 }
+
+window.RevenueAuditBot = RevenueAuditBot;
