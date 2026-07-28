@@ -1,41 +1,66 @@
 /**
  * Revenue Audit Bot
- * AppSheet Selectors
+ * AppSheet Automation Layer
  */
 
 class AppSheet {
 
-    static getSearchBox() {
+    // ----------------------------
+    // ELEMENTS
+    // ----------------------------
+
+    static searchBox() {
         return document.querySelector('#ReactRoot input');
     }
 
-    static getEmptyView() {
-        return document.querySelector('[data-testid="empty-view"]');
-    }
-
-    static getReportCard() {
+    static reportCard() {
         return document.querySelector('[data-testid="base-type-display"]');
     }
 
-    static getSaveButton() {
-        return [...document.querySelectorAll("button")]
-            .find(btn => btn.textContent.trim() === "Save");
+    static emptyView() {
+        return document.querySelector('[data-testid="empty-view"]');
     }
 
-    static getSettledButton() {
-        return document.querySelector('[data-testid="button-select-button"]');
+    static remarksSection() {
+        return document.querySelector('[data-testid="Related Offshore Remarks"]');
     }
 
-    static getRelatedRemarksSection() {
-    return document.querySelector('[data-testid="Related Offshore Remarks"]');
+    // ----------------------------
+    // ACTIONS
+    // ----------------------------
+
+    static async searchBL(bl){
+
+        const box=this.searchBox();
+
+        if(!box) return false;
+
+        box.focus();
+
+        box.value="";
+
+        box.dispatchEvent(new Event("input",{bubbles:true}));
+
+        box.value=bl;
+
+        box.dispatchEvent(new Event("input",{bubbles:true}));
+
+        box.dispatchEvent(new Event("change",{bubbles:true}));
+
+        return true;
+
     }
 
-    static getAddButton() {
-    return document.querySelector('[data-testid="Related Offshore Remarks"] span');
-    }
+    static async clickReport(){
 
-    static getDeleteButton() {
-    return document.querySelector('#navbar-Offshore\\ Remarks-Delete');
+        const report=this.reportCard();
+
+        if(!report) return false;
+
+        report.click();
+
+        return true;
+
     }
 
 }
