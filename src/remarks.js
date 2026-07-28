@@ -1,8 +1,9 @@
 class RemarksEngine{
 
-    constructor(logger){
+    constructor(logger, actions){
 
-        this.logger=logger;
+        this.logger = logger;
+        this.actions = actions;
 
     }
 
@@ -10,15 +11,35 @@ class RemarksEngine{
 
         if(AppSheet.hasExistingRemarks()){
 
-            this.logger.warning("Existing Remarks Detected");
+            this.logger.warning("Existing Remarks Found");
 
-            return "DELETE";
+            await this.deleteRemarks();
+
+        }else{
+
+            this.logger.success("No Existing Remarks");
 
         }
 
-        this.logger.success("No Existing Remarks");
+    }
 
-        return "ADD";
+    async deleteRemarks(){
+
+        this.logger.info("Deleting Existing Remarks...");
+
+        await this.actions.click(
+            AppSheet.deleteButton(),
+            "Delete Button"
+        );
+
+        await this.actions.click(
+            AppSheet.confirmDeleteButton(),
+            "Confirm Delete"
+        );
+
+        await AppSheet.waitDialogClosed();
+
+        this.logger.success("Remarks Deleted");
 
     }
 
